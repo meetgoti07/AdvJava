@@ -5,10 +5,176 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Manage Users - Admin</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Custom Styles -->
+  <style>
+    /* Color scheme */
+    :root {
+      --primary-color: #1a1a2e;
+      --secondary-color: #16213e;
+      --accent-color: #0f3460;
+      --button-color: #e94560;
+      --bg-color: #f0f2f5;
+      --text-color: #333;
+    }
+
+    /* Global Styles */
+    body {
+      font-family: "Calisto MT";
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      padding: 20px;
+    }
+
+    /* Navbar */
+    nav {
+      background-color: var(--primary-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 24px;
+      border-radius: 8px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      margin: 0 12px;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--button-color);
+    }
+
+    /* Card and Form */
+    .card {
+      background-color: #fff;
+      padding: 24px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+    }
+
+    .card h2 {
+      font-size: 1.8em;
+      color: var(--primary-color);
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      font-size: 0.9em;
+      color: var(--secondary-color);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 10px;
+      font-size: 0.95em;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      transition: all 0.3s;
+    }
+
+    input[type="text"]:focus,
+    select:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 8px rgba(26, 26, 46, 0.1);
+      outline: none;
+    }
+
+    .save-btn {
+      background-color: var(--primary-color);
+      color: #fff;
+      padding: 12px;
+      font-size: 1em;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s;
+    }
+
+    .save-btn:hover {
+      background-color: var(--button-color);
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      font-size: 0.95em;
+    }
+
+    th, td {
+      padding: 12px 8px;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+    }
+
+    th {
+      background-color: var(--secondary-color);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    tr:nth-child(even) {
+      background-color: #fafafa;
+    }
+
+    .action-buttons button {
+      font-size: 0.85em;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .edit-btn {
+      background-color: var(--accent-color);
+      color: #fff;
+      margin-right: 8px;
+    }
+
+    .edit-btn:hover {
+      background-color: #274c77;
+    }
+
+    .delete-btn {
+      background-color: var(--button-color);
+      color: #fff;
+    }
+
+    .delete-btn:hover {
+      background-color: #b0304d;
+    }
+  </style>
+
   <script>
     function editUser(userId, username, role) {
-      document.getElementById('userId').value = Number(userId);
+      document.getElementById('userId').value = userId;
       document.getElementById('username').value = username;
       document.getElementById('role').value = role;
     }
@@ -30,55 +196,54 @@
   </script>
 </head>
 
-<body class="bg-gray-200 min-h-screen flex flex-col items-center">
-<div class="container mx-auto px-4">
-  <nav class="bg-teal-700 text-white p-4 rounded-lg shadow-md mb-4">
-    <ul class="flex justify-evenly">
-      <li><a href="/admin/home" class="hover:underline">Home</a></li>
-      <li><a href="/admin/manage-users" class="hover:underline">Manage Users</a></li>
-      <li><a href="/logout" class="hover:underline">Logout</a></li>
-    </ul>
+<body>
+<div class="container">
+  <!-- Navbar -->
+  <nav>
+    <a href="/admin/home">Home</a>
+    <a href="/admin/manage-users">Manage Users</a>
+    <a href="/logout">Logout</a>
   </nav>
 
-  <div class="bg-white p-6 rounded-lg shadow-md w-full">
-    <h2 class="text-2xl font-bold mb-4">Manage Users</h2>
-    <form id="userForm" class="mb-4" method="POST" action="/admin/edit-user">
+  <!-- Manage Users Card -->
+  <div class="card">
+    <h2>Manage Users</h2>
+
+    <!-- User Form -->
+    <form id="userForm" method="POST" action="/admin/edit-user">
       <input type="hidden" id="userId" name="userId">
-      <div class="mb-4">
-        <label for="username" class="block text-gray-700">Username</label>
-        <input type="text" id="username" name="username" class="w-full p-2 border rounded">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username">
       </div>
-      <div class="mb-4">
-        <label for="role" class="block text-gray-700">Role</label>
-        <select id="role" name="role" class="w-full p-2 border rounded">
+      <div class="form-group">
+        <label for="role">Role</label>
+        <select id="role" name="role">
           <option value="ROLE_USER">User</option>
           <option value="ROLE_ADMIN">Admin</option>
         </select>
       </div>
-      <button type="submit" class="bg-teal-700 text-white p-2 rounded">Save</button>
+      <button type="submit" class="save-btn">Save</button>
     </form>
 
-    <table class="w-full bg-white rounded-lg shadow-md">
+    <!-- Users Table -->
+    <table>
       <thead>
       <tr>
-        <th class="border p-2">ID</th>
-        <th class="border p-2">Username</th>
-        <th class="border p-2">Role</th>
-        <th class="border p-2">Actions</th>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Role</th>
+        <th>Actions</th>
       </tr>
       </thead>
-      <tbody id="userTableBody">
+      <tbody>
       <tr th:each="user : ${users}">
-        <td class="border p-2" th:text="${user.id}">1</td>
-        <td class="border p-2" th:text="${user.username}">username</td>
-        <td class="border p-2" th:text="${user.role}">role</td>
-        <td class="border p-2">
-          <button class="bg-blue-500 text-white p-1 rounded"
-                  th:attr="data-user-id=${user.id}, data-username=${user.username}, data-role=${user.role}"
-                  onclick="editUser(this.dataset.userId, this.dataset.username, this.dataset.role)">Edit</button>
-          <button class="bg-red-500 text-white p-1 rounded"
-                  th:attr="data-user-id=${user.id}"
-                  onclick="deleteUser(this.dataset.userId)">Delete</button>
+        <td th:text="${user.id}">1</td>
+        <td th:text="${user.username}">username</td>
+        <td th:text="${user.role}">role</td>
+        <td class="action-buttons">
+          <button class="edit-btn" th:attr="data-user-id=${user.id}, data-username=${user.username}, data-role=${user.role}" onclick="editUser(this.dataset.userId, this.dataset.username, this.dataset.role)">Edit</button>
+          <button class="delete-btn" th:attr="data-user-id=${user.id}" onclick="deleteUser(this.dataset.userId)">Delete</button>
         </td>
       </tr>
       </tbody>
