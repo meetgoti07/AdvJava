@@ -1,8 +1,7 @@
-package com.genuinecoder.learnspringsecurity;
+package com.genuinecoder.learnspringsecurity.Controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class ContentController {
@@ -26,6 +25,7 @@ public class ContentController {
   public String handleLogin() {
     return "custom_login";
   }
+
 
 
   @GetMapping("/register/user")

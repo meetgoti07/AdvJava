@@ -1,4 +1,4 @@
-package com.genuinecoder.learnspringsecurity;
+package com.genuinecoder.learnspringsecurity.Security;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
