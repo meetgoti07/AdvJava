@@ -71,7 +71,6 @@ The table features the following columns:
   ]
 
 
-```markdown
 ## Save Category
 - **Endpoint**: `POST /admin/category/save`  
 - **Description**: Saves a new category to the database.  
