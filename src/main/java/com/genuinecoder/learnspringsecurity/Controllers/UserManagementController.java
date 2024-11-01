@@ -46,7 +46,7 @@ public class UserManagementController {
         if (user != null) {
             user.setUsername(username);
             if (role.startsWith("ROLE_")) {
-                role = role.substring(5); // Remove the "ROLE_" prefix
+                role = role.substring(5);
             }
             user.setRole(role);
             userService.save(user);

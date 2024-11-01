@@ -1,30 +1,20 @@
 package com.genuinecoder.learnspringsecurity.model;
 
 import jakarta.persistence.*;
-import java.io.Serializable;
+import java.util.List;
 
 @Entity
-@Table(name = "category") // Optional: specify table name if it differs
-public class Category implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Category {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @Column(nullable = false) // Ensures 'name' is not null
     private String name;
+    private String description;
 
-    // Default constructor
-    public Category() {}
+    @OneToMany(mappedBy = "category")
+    private List<Product> products;
 
-    // Parameterized constructor
-    public Category(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -41,12 +31,28 @@ public class Category implements Serializable {
         this.name = name;
     }
 
-    // Override toString() for easy logging/debugging
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
     @Override
     public String toString() {
         return "Category{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
                 '}';
     }
 }

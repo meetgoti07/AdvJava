@@ -1,5 +1,7 @@
-package com.genuinecoder.learnspringsecurity.model;
+package com.genuinecoder.learnspringsecurity.Services;
 
+import com.genuinecoder.learnspringsecurity.Repositories.MyUserRepository;
+import com.genuinecoder.learnspringsecurity.model.MyUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

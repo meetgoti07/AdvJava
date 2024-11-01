@@ -1,7 +1,7 @@
 package com.genuinecoder.learnspringsecurity.Controllers;
 
 import com.genuinecoder.learnspringsecurity.model.Category;
-import com.genuinecoder.learnspringsecurity.Repositories.CategoryRepo;
+import com.genuinecoder.learnspringsecurity.Repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import java.util.Optional;
 public class CategoryController {
 
     @Autowired
-    private CategoryRepo categoryRepo;
+    private CategoryRepository categoryRepo;
 
     // GET request to display the category page at /admin/category
     @GetMapping

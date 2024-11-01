@@ -87,6 +87,8 @@
     }
 
     input[type="text"],
+    input[type="email"],
+    input[type="tel"],
     select {
       width: 100%;
       padding: 10px;
@@ -97,6 +99,8 @@
     }
 
     input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
     select:focus {
       border-color: var(--primary-color);
       box-shadow: 0 0 8px rgba(26, 26, 46, 0.1);
@@ -170,13 +174,54 @@
     .delete-btn:hover {
       background-color: #b0304d;
     }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 500px;
+      border-radius: 10px;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
   </style>
 
   <script>
-    function editUser(userId, username, role) {
+    function editUser(userId, username, role, email, phone, address) {
       document.getElementById('userId').value = userId;
       document.getElementById('username').value = username;
       document.getElementById('role').value = role;
+      document.getElementById('email').value = email;
+      document.getElementById('phone').value = phone;
+      document.getElementById('address').value = address;
+      document.getElementById('editModal').style.display = 'block';
     }
 
     function deleteUser(userId) {
@@ -192,6 +237,10 @@
         document.body.appendChild(form);
         form.submit();
       }
+    }
+
+    function closeModal() {
+      document.getElementById('editModal').style.display = 'none';
     }
   </script>
 </head>
@@ -209,7 +258,42 @@
   <div class="card">
     <h2>Manage Users</h2>
 
-    <!-- User Form -->
+    <!-- Users Table -->
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Role</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Address</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="user : ${users}">
+        <td th:text="${user.id}">1</td>
+        <td th:text="${user.username}">username</td>
+        <td th:text="${user.role}">role</td>
+        <td th:text="${user.email}">email</td>
+        <td th:text="${user.phone}">phone</td>
+        <td th:text="${user.address}">address</td>
+        <td class="action-buttons">
+          <button class="edit-btn" th:attr="data-user-id=${user.id}, data-username=${user.username}, data-role=${user.role}, data-email=${user.email}, data-phone=${user.phone}, data-address=${user.address}" onclick="editUser(this.dataset.userId, this.dataset.username, this.dataset.role, this.dataset.email, this.dataset.phone, this.dataset.address)">Edit</button>
+          <button class="delete-btn" th:attr="data-user-id=${user.id}" onclick="deleteUser(this.dataset.userId)">Delete</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Edit User Modal -->
+<div id="editModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2>Edit User</h2>
     <form id="userForm" method="POST" action="/admin/edit-user">
       <input type="hidden" id="userId" name="userId">
       <div class="form-group">
@@ -223,31 +307,20 @@
           <option value="ROLE_ADMIN">Admin</option>
         </select>
       </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email">
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" name="phone">
+      </div>
+      <div class="form-group">
+        <label for="address">Address</label>
+        <input type="text" id="address" name="address">
+      </div>
       <button type="submit" class="save-btn">Save</button>
     </form>
-
-    <!-- Users Table -->
-    <table>
-      <thead>
-      <tr>
-        <th>ID</th>
-        <th>Username</th>
-        <th>Role</th>
-        <th>Actions</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="user : ${users}">
-        <td th:text="${user.id}">1</td>
-        <td th:text="${user.username}">username</td>
-        <td th:text="${user.role}">role</td>
-        <td class="action-buttons">
-          <button class="edit-btn" th:attr="data-user-id=${user.id}, data-username=${user.username}, data-role=${user.role}" onclick="editUser(this.dataset.userId, this.dataset.username, this.dataset.role)">Edit</button>
-          <button class="delete-btn" th:attr="data-user-id=${user.id}" onclick="deleteUser(this.dataset.userId)">Delete</button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
   </div>
 </div>
 </body>

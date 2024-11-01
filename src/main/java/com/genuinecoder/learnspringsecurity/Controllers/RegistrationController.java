@@ -1,7 +1,7 @@
 package com.genuinecoder.learnspringsecurity.Controllers;
 
 import com.genuinecoder.learnspringsecurity.model.MyUser;
-import com.genuinecoder.learnspringsecurity.model.MyUserRepository;
+import com.genuinecoder.learnspringsecurity.Repositories.MyUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.ModelAttribute;

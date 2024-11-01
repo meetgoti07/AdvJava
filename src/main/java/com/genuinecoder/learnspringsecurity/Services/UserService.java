@@ -1,6 +1,6 @@
 package com.genuinecoder.learnspringsecurity.Services;
 
-import com.genuinecoder.learnspringsecurity.Repositories.UserRepository;
+import com.genuinecoder.learnspringsecurity.Repositories.MyUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.genuinecoder.learnspringsecurity.model.MyUser;
@@ -11,7 +11,7 @@ import java.util.List;
 public class UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private MyUserRepository userRepository;
 
     public List<MyUser> findAll() {
         return userRepository.findAll();
