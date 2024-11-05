@@ -9,6 +9,9 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @ManyToMany(mappedBy = "orders")
+    private List<Customer> customers; // Bidirectional mapping
+
     @ManyToMany
     @JoinTable(
             name = "order_products",
@@ -37,6 +40,14 @@ public class Orders {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<Customer> getCustomers() {
+        return customers;
+    }
+
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
     }
 
     public List<Product> getOrderItems() {
@@ -121,7 +132,7 @@ public class Orders {
 
     @Override
     public String toString() {
-        return "Order{" +
+        return "Orders{" +
                 "id=" + id +
                 ", orderItems=" + orderItems +
                 ", description='" + description + '\'' +
@@ -135,5 +146,4 @@ public class Orders {
                 ", total=" + total +
                 '}';
     }
-
 }
