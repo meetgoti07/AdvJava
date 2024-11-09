@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>View Orders</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Tabbed interface styling */
+        .tab {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab button {
+            background-color: #f9f9f9;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 20px;
+            font-size: 16px;
+            color: #333;
+            transition: background-color 0.3s;
+        }
+
+        .tab button:hover {
+            background-color: #e0e0e0;
+        }
+
+        .tab button.active {
+            border-bottom: 2px solid #333;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Tab content styling */
+        .tabcontent {
+            display: none;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0 auto;
+            font-size: 14px;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            font-weight: 600;
+            color: #555;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        /* Button styling */
+        .btn {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #555;
+        }
+
+        /* Centered container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Responsive styling */
+        @media (max-width: 768px) {
+            th, td {
+                font-size: 12px;
+                padding: 10px;
+            }
+
+            .tab button {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>View Orders</h2>
+
+    <!-- Tabs for Pending and Fulfilled Orders -->
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'Pending')">Pending Orders</button>
+        <button class="tablinks" onclick="openTab(event, 'Fulfilled')">Fulfilled Orders</button>
+    </div>
+
+    <!-- Pending Orders Tab -->
+    <div id="Pending" class="tabcontent">
+        <h3>Pending Orders</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Products</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${pendingOrders}">
+                <td th:text="${order.id}"></td>
+                <td>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li th:each="product : ${order.orderItems}" th:text="${product.name}"></li>
+                    </ul>
+                </td>
+                <td th:text="${order.status}"></td>
+                <td>
+                    <form th:action="@{/admin/view-order/mark-complete/{orderId}(orderId=${order.id})}" method="post">
+                        <button type="submit" class="btn">Mark as Complete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Fulfilled Orders Tab -->
+    <div id="Fulfilled" class="tabcontent">
+        <h3>Fulfilled Orders</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Products</th>
+                <th>Status</th>
+                <th>Order Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${fulfilledOrders}">
+                <td th:text="${order.id}"></td>
+                <td>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li th:each="product : ${order.orderItems}" th:text="${product.name}"></li>
+                    </ul>
+                </td>
+                <td th:text="${order.status}"></td>
+                <td th:text="${order.closedDate}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    // Open the default tab
+    document.getElementsByClassName("tablinks")[0].click();
+</script>
+
+</body>
+</html>
