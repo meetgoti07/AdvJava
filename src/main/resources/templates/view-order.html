@@ -147,6 +147,7 @@
                     </ul>
                 </td>
                 <td th:text="${order.status}"></td>
+                //
                 <td>
                     <form th:action="@{/admin/view-order/mark-complete/{orderId}(orderId=${order.id})}" method="post">
                         <button type="submit" class="btn">Mark as Complete</button>

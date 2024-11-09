@@ -17,9 +17,9 @@ public class ViewOrderController {
     private ViewOrderService viewOrderService;
 
     // Show View Order page with tabs for pending and fulfilled orders
-    @GetMapping("")
+    @GetMapping
     public String showViewOrderPage(Model model) {
-        List<Orders> pendingOrders = viewOrderService.getOrdersByStatus("Pending");
+        List<Orders> pendingOrders = viewOrderService.getOrdersByStatus("Placed");
         List<Orders> fulfilledOrders = viewOrderService.getOrdersByStatus("Fulfilled");
         model.addAttribute("pendingOrders", pendingOrders);
         model.addAttribute("fulfilledOrders", fulfilledOrders);

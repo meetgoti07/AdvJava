@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Products</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+  <h1>Available Products</h1>
+
+  <!-- Display confirmation message if present -->
+  <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+
+  <form id="orderForm" th:action="@{/user/products/place}" method="post">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Product Name</th>
+        <th>Price</th>
+        <th>Select</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="product : ${products}">
+        <td th:text="${product.name}">Product Name</td>
+        <td th:text="${product.salePrice}">Product Price</td>
+        <td>
+          <input type="checkbox" th:value="${product.id}" name="productIds"/>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary">Place Order</button>
+  </form>
+</div>
+
+<!-- JavaScript for order confirmation -->
+<script>
+  const form = document.getElementById("orderForm");
+  form.addEventListener("submit", function(event) {
+    event.preventDefault();
+    if (confirm("Are you sure you want to place this order?")) {
+      form.submit();
+    }
+  });
+</script>
+</body>
+</html>
