@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface MyUserRepository extends JpaRepository<MyUser, Long> {
 
     MyUser findByUsername(String username);
+
 }

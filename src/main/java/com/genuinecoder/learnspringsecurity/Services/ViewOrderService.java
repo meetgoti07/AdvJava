@@ -19,6 +19,17 @@ public class ViewOrderService {
         return viewOrderRepository.findByStatus(status);
     }
 
+    // In ViewOrderService.java
+    public List<Orders> getOrdersByUserIdAndStatus(Long userId, String status) {
+        return viewOrderRepository.findByCustomerIdAndStatus(userId, status);
+    }
+
+    public List<Orders> getOrdersByUserId(Long userId) {
+        return viewOrderRepository.findByCustomerId(userId);
+    }
+
+
+
     @Transactional
     public void markOrderComplete(Long orderId) {
         Orders order = viewOrderRepository.findById(orderId).orElseThrow();

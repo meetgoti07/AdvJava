@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface ViewOrderRepository extends JpaRepository<Orders, Long> {
     List<Orders> findByStatus(String status);
+    List<Orders> findByCustomerIdAndStatus(Long customerId, String status);
+    List<Orders> findByCustomerId(Long customerId);
 }
