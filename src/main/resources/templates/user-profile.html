@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Profile</title>
+    <style>
+        /* Form Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container input,
+        .form-container select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-container label {
+            font-weight: bold;
+        }
+
+        .form-container button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+<script>
+    document.querySelector("form").addEventListener("submit", function (e) {
+        const methodField = document.createElement("input");
+        methodField.setAttribute("type", "hidden");
+        methodField.setAttribute("name", "_method");
+        methodField.setAttribute("value", "PUT");
+        this.appendChild(methodField);
+    });
+</script>
+
+
+<div class="form-container">
+    <h2>Edit Profile</h2>
+
+    <form th:action="@{/user/profile/update-profile}" th:object="${user}" method="Post">
+        <!-- Hidden input to simulate PUT method -->
+        <input type="hidden" name="_method" value="PUT" />
+
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" th:field="*{username}" />
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" th:field="*{password}" />
+        </div>
+
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" th:field="*{email}" />
+        </div>
+        <div>
+            <label for="phone">Phone:</label>
+            <input type="text" id="phone" th:field="*{phone}" />
+        </div>
+        <div>
+            <label for="address">Address:</label>
+            <input type="text" id="address" th:field="*{address}" />
+        </div>
+
+        <div>
+            <label for="role">Role:</label>
+            <select id="role" th:field="*{role}">
+                <option value="USER">User</option>
+
+            </select>
+        </div>
+
+        <button type="submit">Save Changes</button>
+    </form>
+</div>
+
+</body>
+</html>
